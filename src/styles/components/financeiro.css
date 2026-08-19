@@ -1,0 +1,21 @@
+/* ---------- SELETOR DE PERÍODO ---------- */
+.finance-period-selector{display:flex;align-items:center;gap:.75rem}
+.finance-period-selector button{font-family:var(--ff-mono);font-size:.6875rem;letter-spacing:.12em;text-transform:uppercase;color:var(--off-blue-60);transition:color .3s}
+.finance-period-selector button:hover{color:var(--color-off-blue)}
+.finance-period-selector button.is-active{color:var(--color-off-blue)}
+.finance-period-label{font-family:var(--ff-mono);font-size:.75rem;letter-spacing:.04em;color:var(--color-off-blue);min-width:8rem;text-align:center}
+
+/* ---------- ALTERNADOR DE VISÃO (lançamentos/categorias) ---------- */
+.finance-view-toggle{display:flex;gap:1.5rem;border-bottom:1px solid var(--off-blue-10)}
+.finance-view-toggle button{position:relative;padding:.75rem 0;font-family:var(--ff-mono);font-size:.6875rem;letter-spacing:.16em;text-transform:uppercase;color:var(--off-blue-60);transition:color .3s}
+.finance-view-toggle button:hover{color:var(--color-off-blue)}
+.finance-view-toggle button::after{content:"";position:absolute;left:0;bottom:-1px;height:1px;width:100%;background:var(--color-off-blue);transform:scaleX(0);transition:transform .3s var(--ease-hub)}
+.finance-view-toggle button.is-active{color:var(--color-off-blue)}
+.finance-view-toggle button.is-active::after{transform:scaleX(1)}
+
+/* ---------- CATEGORIAS ---------- */
+.finance-category-columns{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+@media (max-width:767px){.finance-category-columns{grid-template-columns:1fr}}
+.finance-category-row{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.finance-category-edit-form{display:flex;align-items:flex-end;gap:.75rem;flex:1;flex-wrap:wrap}
+.finance-category-edit-form .ds-field{flex:1;min-width:10rem;margin-bottom:0}

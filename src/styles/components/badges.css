@@ -1,0 +1,32 @@
+/* ---------- BADGES ---------- */
+@keyframes pcRing{0%,100%{opacity:.2;transform:scale(1)}50%{opacity:.38;transform:scale(1.18)}}
+.badge-row{display:flex;flex-wrap:wrap;gap:1rem;align-items:center}
+.badge-status{display:inline-flex;align-items:center;gap:.5rem;padding:.4rem .75rem;border:1px solid var(--off-blue-10);font-family:var(--ff-mono);font-size:.625rem;letter-spacing:.16em;text-transform:uppercase;color:var(--off-blue-80)}
+.badge-status .dot{position:relative;width:.375rem;height:.375rem;flex-shrink:0}
+.badge-status .dot-solid{background:var(--color-white)}
+.badge-status .dot-solid::after{content:"";position:absolute;inset:-4px;border:1px solid var(--color-white);animation:pcRing 2s var(--ease-in-out) infinite}
+.badge-status .dot-hollow{border:1px solid var(--off-blue-60);background:none}
+.badge-status .dot-cross{width:auto;height:auto;font-size:.5625rem;line-height:1;color:var(--off-blue-40)}
+.badge-status .dot-positive{background:#3ecf6e}
+.badge-status .dot-arrow{width:.5rem;height:.5rem;flex-shrink:0}
+.badge-status .dot-arrow-up{color:#3ecf6e}
+.badge-status .dot-arrow-down{color:#e5484d;transform:rotate(180deg)}
+
+/* ---------- TOOLTIP ---------- */
+[data-tooltip]{position:relative}
+[data-tooltip]::after{
+  content:attr(data-tooltip);
+  position:absolute;left:50%;bottom:100%;transform:translate(-50%,-4px) scale(.98);
+  background:var(--panel-blue);border:1px solid var(--off-blue-20);
+  -webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);
+  padding:.5rem .75rem;font-family:var(--ff-mono);font-size:.625rem;letter-spacing:.08em;line-height:1.4;
+  color:var(--color-off-blue);white-space:nowrap;text-transform:none;
+  opacity:0;pointer-events:none;transition:opacity .25s var(--ease-out) .1s,transform .25s var(--ease-out) .1s;z-index:50;
+}
+[data-tooltip]::before{
+  content:"";position:absolute;left:50%;bottom:100%;transform:translate(-50%,2px) rotate(45deg);
+  width:.5rem;height:.5rem;background:var(--panel-blue);border-right:1px solid var(--off-blue-20);border-bottom:1px solid var(--off-blue-20);
+  opacity:0;pointer-events:none;transition:opacity .25s var(--ease-out) .1s;z-index:51;
+}
+[data-tooltip]:hover::after{opacity:1;transform:translate(-50%,-10px) scale(1)}
+[data-tooltip]:hover::before{opacity:1;transform:translate(-50%,-4px) rotate(45deg)}

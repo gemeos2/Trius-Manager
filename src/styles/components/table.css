@@ -1,0 +1,17 @@
+/* ---------- TABLE (design system genérico) ---------- */
+.ds-table-wrap{width:100%;overflow-x:auto;border:1px solid var(--off-blue-10)}
+.ds-table{width:100%;border-collapse:collapse;font-family:var(--ff-regular);font-size:.875rem}
+.ds-table thead th{
+  text-align:left;padding:.875rem 1rem;
+  font-family:var(--ff-mono);font-size:.625rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--off-blue-40);border-bottom:1px solid var(--off-blue-10);white-space:nowrap;
+}
+.ds-table thead th[data-sortable]{cursor:pointer;user-select:none;transition:color .3s}
+.ds-table thead th[data-sortable]:hover{color:var(--color-off-blue)}
+.ds-table-sort-glyph{display:inline-block;margin-left:.375rem;font-family:var(--ff-mono);color:var(--color-off-blue)}
+.ds-table tbody td{padding:.875rem 1rem;border-bottom:1px solid var(--off-blue-10);color:var(--off-blue-80)}
+.ds-table tbody tr:last-child td{border-bottom:0}
+.ds-table tbody tr.is-clickable{cursor:pointer;transition:background-color .2s}
+.ds-table tbody tr.is-clickable:hover{background:var(--off-blue-05)}
+.ds-table .align-right{text-align:right}
+.ds-table-empty{border:1px solid var(--off-blue-10)}

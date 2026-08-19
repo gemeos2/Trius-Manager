@@ -1,0 +1,41 @@
+/* ---------- SELETOR DE PERÍODO CUSTOMIZADO ---------- */
+.report-range-form{display:flex;align-items:flex-end;gap:.75rem;flex-wrap:wrap}
+.report-range-form .ds-field{margin-bottom:0;min-width:9rem}
+
+/* ---------- SEÇÕES ---------- */
+.report-section{margin-bottom:2rem}
+.report-section-title{font-family:var(--ff-mono);font-size:.6875rem;letter-spacing:.16em;text-transform:uppercase;color:var(--off-blue-60);margin-bottom:1rem}
+
+.report-columns{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+@media (max-width:767px){.report-columns{grid-template-columns:1fr}}
+
+.report-breakdown-row{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.625rem 0;border-bottom:1px solid var(--off-blue-10)}
+.report-breakdown-row:last-child{border-bottom:none}
+.report-breakdown-name{font-size:.875rem;color:var(--color-off-blue)}
+.report-breakdown-value{font-family:var(--ff-mono);font-size:.8125rem;color:var(--off-blue-60)}
+
+/* ---------- IMPRESSÃO ----------
+   O app é branco-sobre-preto na tela; impresso/PDF vira preto-sobre-
+   branco, então os tokens translúcidos de branco (--off-blue-*) somem
+   no papel. Reescreve os tokens só dentro de @media print. */
+@media print {
+  .report-no-print{display:none !important}
+
+  body{background:#FFF !important;color:#0A0A0A !important}
+
+  .report-section-title{color:#0A0A0A !important;opacity:.7}
+  .report-breakdown-row{border-bottom-color:#D9D9D9 !important}
+  .report-breakdown-name{color:#0A0A0A !important}
+  .report-breakdown-value{color:#0A0A0A !important}
+
+  .ds-card{
+    background:#FFF !important;
+    border-color:#D9D9D9 !important;
+    -webkit-backdrop-filter:none !important;backdrop-filter:none !important;
+  }
+  .stat-card .st-value{color:#0A0A0A !important}
+  .stat-card .st-value .unit{color:#4D4D4D !important}
+  .stat-card .st-label{color:#4D4D4D !important}
+  .stat-card .st-delta{color:#4D4D4D !important}
+  .stat-card .st-bars{display:none !important}
+}

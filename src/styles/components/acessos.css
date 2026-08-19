@@ -1,0 +1,9 @@
+/* ---------- ACESSOS ---------- */
+.access-link{color:var(--off-blue-60);text-decoration:underline;text-underline-offset:2px;transition:color .3s}
+.access-link:hover{color:var(--color-off-blue)}
+
+.access-icon-btn{
+  font-family:var(--ff-mono);font-size:.5625rem;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--off-blue-40);white-space:nowrap;transition:color .2s;
+}
+.access-icon-btn:hover{color:var(--color-off-blue)}

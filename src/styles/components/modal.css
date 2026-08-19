@@ -1,0 +1,21 @@
+/* ---------- MODAL ---------- */
+@keyframes open-scale-in-fade{0%{opacity:0;transform:scale(.98)}to{opacity:1;transform:scale(1)}}
+@keyframes close-scale-out-fade{0%{opacity:1;transform:scale(1)}to{opacity:0;transform:scale(.98)}}
+.modal-root{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:1.5rem;visibility:hidden}
+.modal-root.is-open{visibility:visible}
+.modal-backdrop{position:absolute;inset:0;background:var(--dark-blue-90);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);opacity:0;transition:opacity .4s var(--ease-out)}
+.modal-root.is-open .modal-backdrop{opacity:1}
+.modal-panel{position:relative;width:100%;max-width:28rem;background:var(--panel-blue);border:1px solid var(--off-blue-10);opacity:0}
+.modal-panel.modal-lg{max-width:42rem}
+.modal-root.is-open .modal-panel{animation:open-scale-in-fade .45s var(--ease-out) .05s forwards}
+.modal-root.is-closing .modal-panel{animation:close-scale-out-fade .3s var(--ease-out) forwards}
+.modal-root.is-closing .modal-backdrop{opacity:0}
+.modal-body{padding:2.5rem 2rem 2rem;width:100%}
+.modal-close{position:absolute;top:1rem;right:1rem;z-index:5;width:2rem;height:2rem;display:flex;align-items:center;justify-content:center;color:var(--off-blue-60);transition:color .3s,transform .3s}
+.modal-close:hover{color:var(--color-error);transform:rotate(90deg)}
+
+/* ---------- TOAST ---------- */
+.ds-toast-stack{position:fixed;left:50%;bottom:2.5rem;transform:translateX(-50%);z-index:300;display:flex;flex-direction:column;align-items:center;gap:.625rem;pointer-events:none}
+.ds-toast{position:relative;pointer-events:auto;display:flex;align-items:center;gap:.75rem;background:var(--panel-blue);border:1px solid var(--off-blue-20);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);padding:.875rem 1.25rem;font-family:var(--ff-mono);font-size:.6875rem;letter-spacing:.16em;text-transform:uppercase;transform:translateY(150%);transition:transform .5s var(--ease-pop)}
+.ds-toast.is-visible{transform:translateY(0)}
+.ds-toast .sq{width:.375rem;height:.375rem;background:var(--color-white);flex-shrink:0}

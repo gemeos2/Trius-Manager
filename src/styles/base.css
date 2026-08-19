@@ -1,0 +1,83 @@
+/* ============================================================
+   TRIUS DESIGN SYSTEM — reset + base tipográfica
+   Portado de design_system.html
+   ============================================================ */
+
+*,:after,:before{box-sizing:border-box;border:0 solid;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
+body{
+  background-color:var(--color-dark-blue);
+  color:var(--color-off-blue);
+  font-family:var(--ff-regular);
+  line-height:1.5;
+  letter-spacing:-.02em;
+  overflow-x:hidden;
+  min-height:100vh;
+}
+main{overflow-x:clip}
+::selection{background:var(--color-error);color:var(--color-dark-blue)}
+img,video,svg,canvas{display:block;max-width:100%}
+button{font:inherit;color:inherit;background:none;cursor:pointer}
+a{color:inherit;text-decoration:none}
+input,select,textarea{font:inherit;color:inherit;background:none}
+h1,h2,h3,h4,h5,h6,p{margin:0;font-weight:inherit;font-size:inherit}
+ul,ol{list-style:none}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:var(--color-dark-blue)}
+::-webkit-scrollbar-thumb{background:var(--off-blue-20);border:3px solid var(--color-dark-blue)}
+::-webkit-scrollbar-thumb:hover{background:var(--off-blue-40)}
+
+/* ---------- UTILITÁRIOS ---------- */
+.relative{position:relative}.absolute{position:absolute}.fixed{position:fixed}.sticky{position:sticky}
+.flex{display:flex}.inline-flex{display:inline-flex}.grid{display:grid}.hidden{display:none}.block{display:block}
+.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}
+.items-center{align-items:center}.items-start{align-items:flex-start}.items-end{align-items:flex-end}
+.justify-center{justify-content:center}.justify-between{justify-content:space-between}.justify-end{justify-content:flex-end}
+.w-full{width:100%}.h-full{height:100%}
+.text-center{text-align:center}.uppercase{text-transform:uppercase}
+
+/* Tipos — famílias */
+.font-light{font-family:var(--ff-light)}
+.font-regular{font-family:var(--ff-regular)}
+.font-bold{font-family:var(--ff-bold)}
+.font-mono{font-family:var(--ff-mono)}
+.font-mono-bold{font-family:var(--ff-mono-bold)}
+
+/* Cores de texto/fundo */
+.text-off-blue{color:var(--color-off-blue)}.text-dark-blue{color:var(--color-dark-blue)}
+.bg-dark-blue{background-color:var(--color-dark-blue)}.bg-off-blue{background-color:var(--color-off-blue)}
+
+/* Bordas hairline */
+.borderTop{border-top:1px solid var(--off-blue-10)}
+.borderBottom{border-bottom:1px solid var(--off-blue-10)}
+
+/* Escala tipográfica (t-*) */
+.t-display{font-family:var(--ff-bold);font-size:clamp(2.5rem,6vw,6.5rem);line-height:.86;letter-spacing:.02em;text-transform:uppercase}
+.t-h1{font-family:var(--ff-bold);font-size:3.5rem;line-height:.9;letter-spacing:.04em;text-transform:uppercase}
+.t-h2{font-family:var(--ff-bold);font-size:2.5rem;line-height:1;letter-spacing:.04em;text-transform:uppercase}
+.t-h3{font-family:var(--ff-bold);font-size:2rem;line-height:1.1;letter-spacing:.04em;text-transform:uppercase}
+.t-h4{font-family:var(--ff-regular);font-size:1.5rem;line-height:1.2;letter-spacing:-.02em}
+.t-h5{font-family:var(--ff-bold);font-size:1.125rem;line-height:1.3;letter-spacing:-.02em}
+.t-h6{font-family:var(--ff-mono-bold);font-size:.875rem;line-height:1.4;letter-spacing:.16em;text-transform:uppercase}
+.t-body-lg{font-family:var(--ff-light);font-size:1.125rem;line-height:1.6;letter-spacing:-.02em}
+.t-body{font-family:var(--ff-regular);font-size:1rem;line-height:1.6;letter-spacing:-.02em}
+.t-body-sm{font-family:var(--ff-regular);font-size:.875rem;line-height:1.5;letter-spacing:-.02em}
+.t-caption{font-family:var(--ff-mono);font-size:.75rem;line-height:1.4;letter-spacing:.08em}
+.t-label{font-family:var(--ff-mono);font-size:.6875rem;line-height:.9;letter-spacing:.24em;text-transform:uppercase}
+.t-helper{font-family:var(--ff-mono);font-size:.625rem;line-height:1.4;letter-spacing:.04em;opacity:.6}
+
+/* ---------- EYEBROW ---------- */
+@keyframes pcPulse{0%,100%{opacity:1}50%{opacity:.25}}
+.eyebrow{background-color:var(--off-blue-10);display:inline-flex;align-items:center;gap:.5rem;padding:.5rem .875rem;font-family:var(--ff-mono);font-size:.6875rem;line-height:.9;letter-spacing:.24em;text-transform:uppercase;color:var(--color-off-blue)}
+.eyebrow .sq{width:.25rem;height:.25rem;background:var(--color-error);animation:pcPulse 2s var(--ease-in-out) infinite}
+
+/* ---------- REVEAL-FADE ---------- */
+.reveal-fade{opacity:0;transform:translateY(16px);transition:opacity .8s var(--ease-out),transform .8s var(--ease-out);transition-delay:calc(var(--reveal-index,0)*100ms)}
+.reveal-fade.is-inview{opacity:1;transform:none}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .reveal-fade{opacity:1;transform:none}
+  html{scroll-behavior:auto}
+}
+.sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);border:0;white-space:nowrap}

@@ -1,0 +1,34 @@
+/* ---------- CARDS ---------- */
+@keyframes bars-bounce{0%,to{transform:scaleY(.3)}50%{transform:scaleY(1)}}
+.stat-card{flex:1;min-width:10rem;padding:1rem 1.125rem;position:relative;overflow:hidden}
+.stat-card .st-value{font-family:var(--ff-bold);font-size:1.5rem;line-height:1;letter-spacing:-.01em;display:flex;align-items:center;gap:.25rem}
+.stat-card .st-value .unit{font-size:.875rem;color:var(--off-blue-60)}
+.stat-card .st-trend{flex-shrink:0}
+.stat-card .st-trend-up{color:#3ecf6e}
+.stat-card .st-trend-down{color:#e5484d;transform:rotate(180deg)}
+.stat-card .st-label{margin-top:.375rem;font-family:var(--ff-mono);font-size:.5625rem;letter-spacing:.16em;text-transform:uppercase;color:var(--off-blue-40)}
+.stat-card .st-delta{margin-top:.25rem;font-family:var(--ff-mono);font-size:.625rem;letter-spacing:.06em;color:var(--off-blue-60)}
+.stat-card .st-bars{position:absolute;right:.875rem;bottom:.875rem;display:flex;gap:2px;align-items:flex-end;height:1.125rem}
+.stat-card .st-bars i{width:3px;background:var(--off-blue-20);transform-origin:bottom;animation:bars-bounce 1.6s var(--ease-in-out) infinite}
+.stat-card .st-bars i:nth-child(2){animation-delay:.15s;background:var(--off-blue-30)}
+.stat-card .st-bars i:nth-child(3){animation-delay:.3s;background:var(--off-blue-40)}
+.stat-card .st-bars i:nth-child(4){animation-delay:.45s;background:var(--color-off-blue)}
+
+/* card genérico com hairline + glass, base para telas de conteúdo */
+.ds-card{position:relative;background:var(--off-blue-05);border:1px solid var(--off-blue-10);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px)}
+.ds-card-header{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.25rem 1.5rem;border-bottom:1px solid var(--off-blue-10)}
+.ds-card-body{padding:1.5rem}
+
+/* ---------- SKELETON ---------- */
+@keyframes skeleton-pulse{0%,100%{opacity:.5}50%{opacity:.9}}
+.skeleton{background:var(--off-blue-10);animation:skeleton-pulse 1.6s var(--ease-in-out) infinite}
+.skeleton-text{height:.875rem;width:100%}
+.skeleton-text.w-1\/2{width:50%}
+.skeleton-text.w-1\/3{width:33%}
+.skeleton-card{height:8rem;width:100%}
+
+/* ---------- EMPTY STATE ---------- */
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:.75rem;padding:4rem 1.5rem;color:var(--off-blue-60)}
+.empty-state .es-icon{width:2.5rem;height:2.5rem;color:var(--off-blue-30);margin-bottom:.5rem}
+.empty-state .es-title{font-family:var(--ff-bold);font-size:1rem;letter-spacing:.04em;text-transform:uppercase;color:var(--color-off-blue)}
+.empty-state .es-desc{font-family:var(--ff-light);font-size:.875rem;line-height:1.6;max-width:26rem}

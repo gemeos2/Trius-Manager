@@ -1,0 +1,50 @@
+/* ---------- BOTÕES ---------- */
+.ds-btn{position:relative;display:inline-flex;border:none;background:none;padding:0;cursor:pointer;-webkit-user-select:none;user-select:none;outline:none}
+.ds-btn:disabled,.ds-btn.is-disabled{opacity:.4;pointer-events:none}
+.ds-btn:focus-visible .border-svg path{stroke:var(--color-error)}
+.btn-inner{
+  display:flex;justify-content:center;align-items:center;gap:.5rem;
+  padding:1.25rem 1.75rem;
+  font-family:var(--ff-bold);font-size:.6875rem;line-height:1.2;letter-spacing:.16em;text-transform:uppercase;
+  transition:color .3s,background-color .3s;position:relative;width:100%;
+  white-space:nowrap;
+}
+@media (min-width:768px){.btn-inner{font-size:.75rem}}
+.btn-inner.btn-sm{padding:.75rem 1.125rem}
+
+/* variante transparent (hubtown) */
+.transparent{-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);background-color:var(--off-blue-05);color:var(--color-off-blue)}
+.transparent__background{background-color:var(--color-off-blue);position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;z-index:-1;transition:opacity .3s}
+.ds-btn:hover .transparent__background{opacity:1}
+.ds-btn:hover .transparent{color:var(--color-dark-blue)}
+.ds-btn:hover .border-svg path{stroke:var(--off-blue-40)}
+
+/* variantes sólidas */
+.solid-light{background-color:var(--color-off-blue);color:var(--color-dark-blue);transition:color .3s,background-color .3s}
+.ds-btn:not(.is-disabled):hover .solid-light{background-color:var(--color-dark-blue);color:var(--color-off-blue)}
+.solid-dark{background-color:var(--color-dark-blue);color:var(--color-off-blue);transition:color .3s,background-color .3s}
+.ds-btn:not(.is-disabled):hover .solid-dark{background-color:var(--color-off-blue);color:var(--color-dark-blue)}
+
+.btn-label{position:relative;white-space:nowrap;display:inline-block}
+
+/* cantos que aparecem no hover */
+.corner-dots i{position:absolute;width:.125rem;height:.125rem;background:var(--color-off-blue);opacity:0;transition:opacity .3s,transform .3s var(--ease-hub);z-index:3}
+.corner-dots .c-tl{top:0;left:0;transform:translate(-50%,-50%) scale(0);--cx:-50%;--cy:-50%}
+.corner-dots .c-tr{top:0;right:0;transform:translate(50%,-50%) scale(0);--cx:50%;--cy:-50%}
+.corner-dots .c-bl{bottom:0;left:0;transform:translate(-50%,50%) scale(0);--cx:-50%;--cy:50%}
+.corner-dots .c-br{bottom:0;right:0;transform:translate(50%,50%) scale(0);--cx:50%;--cy:50%}
+.ds-btn:hover .corner-dots i{opacity:1;transform:translate(var(--cx,0),var(--cy,0)) scale(1)}
+
+/* spinner de loading (novo — usa só opacidade/borda, sem cor) */
+.btn-spinner{width:.875rem;height:.875rem;border:1.5px solid var(--off-blue-30);border-top-color:var(--color-off-blue);border-radius:50%;animation:btn-spin .7s linear infinite}
+@keyframes btn-spin{to{transform:rotate(360deg)}}
+
+/* botões de receita/despesa — cor + ícone de tendência */
+.btn-trend-icon{flex-shrink:0}
+.btn-trend-icon.is-down{transform:rotate(180deg)}
+.btn-revenue .transparent{color:#3ecf6e}
+.btn-revenue .border-svg path{stroke:#3ecf6e}
+.btn-revenue:hover .transparent{color:var(--color-dark-blue)}
+.btn-revenue .transparent__background{background-color:#3ecf6e}
+.btn-expense .solid-light{background-color:#e5484d;color:#fff}
+.btn-expense:not(.is-disabled):hover .solid-light{background-color:#c73e42;color:#fff}

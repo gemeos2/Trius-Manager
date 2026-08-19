@@ -1,0 +1,66 @@
+/* ============================================================
+   TRIUS DESIGN SYSTEM — tokens
+   Portado de design_system.html — não alterar valores aqui
+   sem atualizar a fonte de verdade em design_system.html.
+   ============================================================ */
+
+@font-face{font-family:'Grotesk Light';font-style:normal;font-weight:300;font-display:swap;src:url("/fonts/grotesk-light.woff2") format("woff2")}
+@font-face{font-family:'Grotesk Regular';font-style:normal;font-weight:400;font-display:swap;src:url("/fonts/grotesk-regular.woff2") format("woff2")}
+@font-face{font-family:'Grotesk Bold';font-style:normal;font-weight:700;font-display:swap;src:url("/fonts/grotesk-bold.woff2") format("woff2")}
+@font-face{font-family:'Commit Mono';font-style:normal;font-weight:400;font-display:swap;src:url("/fonts/commit-mono.otf") format("opentype")}
+@font-face{font-family:'Commit Mono Bold';font-style:normal;font-weight:700;font-display:swap;src:url("/fonts/commit-mono-bold.ttf") format("truetype")}
+
+:root{
+  /* Cores núcleo — PRETO & BRANCO (marca) */
+  --color-black:#0A0A0A;
+  --color-white:#FFFFFF;
+  --color-glow:#333333;
+  /* Ladder de opacidade do branco */
+  --white-05:rgba(255,255,255,.05);
+  --white-10:rgba(255,255,255,.10);
+  --white-20:rgba(255,255,255,.20);
+  --white-30:rgba(255,255,255,.30);
+  --white-40:rgba(255,255,255,.40);
+  --white-60:rgba(255,255,255,.60);
+  --white-80:rgba(255,255,255,.80);
+  /* Aliases DNA (nomes herdados do hubtown — não usar em código novo) */
+  --color-dark-blue:var(--color-black);
+  --color-off-blue:var(--color-white);
+  --color-glow-blue:var(--color-glow);
+  --color-error:var(--color-white);
+  --color-signal:var(--white-60);
+  --color-verdant:var(--white-60);
+  --off-blue-05:var(--white-05);
+  --off-blue-10:var(--white-10);
+  --off-blue-20:var(--white-20);
+  --off-blue-30:var(--white-30);
+  --off-blue-40:var(--white-40);
+  --off-blue-60:var(--white-60);
+  --off-blue-80:var(--white-80);
+  --dark-blue-90:rgba(6,6,6,.90);
+  --dark-blue-60:rgba(6,6,6,.60);
+  --panel-blue:rgba(16,16,16,.92);
+  /* Famílias */
+  --ff-light:'Grotesk Light',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;
+  --ff-regular:'Grotesk Regular',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;
+  --ff-bold:'Grotesk Bold',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;
+  --ff-mono:'Commit Mono',ui-monospace,'Cascadia Mono',Consolas,monospace;
+  --ff-mono-bold:'Commit Mono Bold',ui-monospace,'Cascadia Mono',Consolas,monospace;
+  /* Easings */
+  --ease-hub:cubic-bezier(.2,0,0,1);
+  --ease-out:cubic-bezier(0,0,.2,1);
+  --ease-in-out:cubic-bezier(.4,0,.2,1);
+  --ease-pop:cubic-bezier(.32,.72,0,1);
+  /* Durations */
+  --dur-100:.1s; --dur-150:.15s; --dur-300:.3s; --dur-500:.5s; --dur-700:.7s; --dur-1000:1s;
+  /* Layout */
+  --frame:0px;
+  --nav-h:4.25rem;
+  --bevel:16px;
+}
+
+/* Root fixo — o app de gestão é usado em desktop/notebook o dia inteiro,
+   então a fonte não deve encolher em telas largas (diferente da landing
+   cinematográfica original do design_system.html). */
+html{font-size:17px;scroll-behavior:smooth}
+@media (max-width:479px){html{font-size:15px}}

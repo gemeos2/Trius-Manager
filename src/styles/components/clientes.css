@@ -1,0 +1,43 @@
+/* ---------- LISTA DE CLIENTES ---------- */
+.client-filters{display:flex;gap:.75rem;margin-bottom:1.25rem;flex-wrap:wrap}
+.client-filter-search{flex:1;min-width:16rem}
+.client-filters select{min-width:10rem}
+
+/* ---------- FORMULÁRIOS ---------- */
+.client-form{display:flex;flex-direction:column;gap:1.25rem}
+.client-form-row{display:flex;gap:1rem;flex-wrap:wrap}
+.client-form-row > *{flex:1;min-width:10rem}
+
+.client-inline-form{display:flex;flex-direction:column;gap:1.25rem;padding:1.5rem;margin-bottom:1.5rem;background:var(--off-blue-05);border:1px solid var(--off-blue-10)}
+
+/* ---------- PERFIL: HEADER ---------- */
+.client-profile-header{display:flex;align-items:flex-start;justify-content:space-between;gap:1.5rem;margin-bottom:2rem;flex-wrap:wrap}
+.client-profile-title-row{display:flex;align-items:center;gap:.875rem;flex-wrap:wrap}
+
+/* ---------- PERFIL: ABAS ---------- */
+.client-tabs{display:flex;gap:1.75rem;border-bottom:1px solid var(--off-blue-10);margin-bottom:2rem;overflow-x:auto}
+.client-tab{position:relative;padding:.875rem 0;font-family:var(--ff-mono);font-size:.6875rem;letter-spacing:.16em;text-transform:uppercase;color:var(--off-blue-60);white-space:nowrap;transition:color .3s}
+.client-tab:hover{color:var(--color-off-blue)}
+.client-tab::after{content:"";position:absolute;left:0;bottom:-1px;height:1px;width:100%;background:var(--color-off-blue);transform:scaleX(0);transition:transform .3s var(--ease-hub)}
+.client-tab.is-active{color:var(--color-off-blue)}
+.client-tab.is-active::after{transform:scaleX(1)}
+.client-tab-content{min-height:12rem}
+.client-tab-toolbar{display:flex;gap:.75rem;margin-bottom:1.25rem}
+.client-tab-section-title{font-family:var(--ff-mono);font-size:.625rem;letter-spacing:.24em;text-transform:uppercase;color:var(--off-blue-40);margin-bottom:.875rem}
+
+/* ---------- PERFIL: LISTAS GENÉRICAS (contratos/receitas/despesas/projetos/tarefas) ---------- */
+.client-list{display:flex;flex-direction:column;gap:.75rem}
+.client-list-item-header{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.client-list-item-meta{display:flex;align-items:center;gap:.875rem;margin-top:.5rem;font-family:var(--ff-mono);font-size:.625rem;letter-spacing:.08em;text-transform:uppercase;color:var(--off-blue-40);flex-wrap:wrap}
+
+.client-overview-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));gap:1.5rem}
+
+/* ---------- STATUS: DROPDOWN CLICÁVEL ---------- */
+.client-status-dropdown{position:relative;display:inline-block}
+.client-status-trigger{cursor:pointer;transition:opacity .2s}
+.client-status-trigger:hover{opacity:.8}
+.client-status-trigger:disabled{cursor:default;opacity:.5}
+.client-status-menu{position:fixed;z-index:120;display:flex;flex-direction:column;gap:.25rem;padding:.5rem;background:var(--panel-blue);border:1px solid var(--off-blue-20);backdrop-filter:blur(20px);min-width:11rem}
+.client-status-menu-item{display:flex;text-align:left;padding:.25rem;transition:background .2s}
+.client-status-menu-item:hover{background:var(--off-blue-05)}
+.client-status-menu-item.is-current{opacity:.5}

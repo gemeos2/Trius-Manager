@@ -1,0 +1,48 @@
+/* ---------- INPUTS ---------- */
+.ds-field{display:flex;flex-direction:column;gap:.5rem;min-width:15rem;flex:1}
+.ds-field label{font-family:var(--ff-mono);font-size:.625rem;letter-spacing:.24em;text-transform:uppercase;color:var(--off-blue-60)}
+.ds-field label .req{color:var(--color-error)}
+.input-frame{position:relative}
+.ds-input{width:100%;background:var(--off-blue-05);border:1px solid var(--off-blue-10);padding:.875rem 1rem;font-family:var(--ff-regular);font-size:.875rem;letter-spacing:-.02em;color:var(--color-off-blue);outline:none;transition:border-color .3s,background-color .3s;-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px)}
+.ds-input::placeholder{color:var(--off-blue-30)}
+.ds-input:focus{border-color:var(--off-blue-40);background:var(--off-blue-10)}
+.ds-input:disabled{opacity:.5;cursor:not-allowed}
+textarea.ds-input{resize:vertical;min-height:6rem}
+select.ds-input{appearance:none;cursor:pointer;padding-right:2.5rem;background-color:var(--color-dark-blue);color-scheme:dark}
+select.ds-input option{background-color:var(--color-dark-blue);color:var(--color-off-blue)}
+.select-chevron{position:absolute;right:1rem;top:50%;transform:translateY(-50%);pointer-events:none;color:var(--off-blue-60)}
+
+/* colchetes de foco (reticule) */
+.input-frame .fb{position:absolute;width:.5rem;height:.5rem;border-color:var(--color-off-blue);border-style:solid;opacity:0;transition:opacity .25s,transform .35s var(--ease-hub);pointer-events:none;z-index:2}
+.input-frame .fb-tl{top:-2px;left:-2px;border-width:1px 0 0 1px;transform:translate(4px,4px)}
+.input-frame .fb-tr{top:-2px;right:-2px;border-width:1px 1px 0 0;transform:translate(-4px,4px)}
+.input-frame .fb-bl{bottom:-2px;left:-2px;border-width:0 0 1px 1px;transform:translate(4px,-4px)}
+.input-frame .fb-br{bottom:-2px;right:-2px;border-width:0 1px 1px 0;transform:translate(-4px,-4px)}
+.input-frame:focus-within .fb{opacity:1;transform:translate(0,0)}
+
+.field-helper{font-family:var(--ff-mono);font-size:.625rem;letter-spacing:.04em;color:var(--off-blue-40)}
+.ds-field.has-error .ds-input{border-color:var(--color-white);border-style:dashed}
+.ds-field.has-error .field-helper{color:var(--color-white)}
+.ds-field.has-success .ds-input{border-color:var(--color-white)}
+.ds-field.has-success .field-helper{color:var(--off-blue-80)}
+
+/* ---------- CHECKBOX / RADIO / TOGGLE ---------- */
+.ds-check{display:inline-flex;align-items:center;gap:.75rem;cursor:pointer;font-family:var(--ff-mono);font-size:.75rem;letter-spacing:.08em;color:var(--off-blue-60);transition:color .3s}
+.ds-check:hover{color:var(--color-off-blue)}
+.ds-check input{position:absolute;opacity:0;pointer-events:none}
+.ds-check .box{position:relative;width:1rem;height:1rem;background:var(--off-blue-05);border:1px solid var(--off-blue-20);transition:background-color .2s,border-color .2s;flex-shrink:0}
+.ds-check .box::after{content:"";position:absolute;inset:3px;background:var(--color-dark-blue);clip-path:polygon(0 55%,20% 55%,20% 75%,40% 75%,40% 95%,60% 95%,60% 75%,80% 75%,80% 55%,100% 55%,100% 35%,80% 35%,80% 55%,60% 55%,60% 75%,40% 75%,40% 55%,20% 55%,20% 35%,0 35%);opacity:0;transform:scale(0);transition:transform .25s var(--ease-pop),opacity .1s}
+.ds-check input:checked+.box{background:var(--color-off-blue);border-color:var(--color-off-blue)}
+.ds-check input:checked+.box::after{opacity:1;transform:scale(1)}
+.ds-check input:focus-visible+.box{border-color:var(--color-error)}
+.ds-check.is-radio .box{border-radius:50%}
+.ds-check.is-radio .box::after{clip-path:none;inset:4px;transform:scale(0);border-radius:50%}
+.ds-check.is-radio input:checked+.box::after{transform:scale(1)}
+
+.ds-toggle{display:inline-flex;align-items:center;gap:.75rem;cursor:pointer;font-family:var(--ff-mono);font-size:.6875rem;letter-spacing:.16em;text-transform:uppercase;color:var(--off-blue-60)}
+.ds-toggle input{position:absolute;opacity:0;pointer-events:none}
+.ds-toggle .track{position:relative;width:2.5rem;height:1.25rem;background:var(--off-blue-10);border:1px solid var(--off-blue-20);transition:background-color .3s,border-color .3s;flex-shrink:0}
+.ds-toggle .knob{position:absolute;top:2px;left:2px;width:calc(1.25rem - 6px);height:calc(1.25rem - 6px);background:var(--off-blue-60);transition:transform .3s var(--ease-pop),background-color .3s}
+.ds-toggle input:checked+.track{background:var(--white-20);border-color:var(--color-white)}
+.ds-toggle input:checked+.track .knob{transform:translateX(1.25rem);background:var(--color-white)}
+.ds-toggle input:focus-visible+.track{border-color:var(--color-error)}
