@@ -11,6 +11,8 @@
 .kanban-board-tile-actions button{color:var(--off-blue-40);transition:color .3s}
 .kanban-board-tile-actions button:hover{color:var(--color-off-blue)}
 .kanban-board-tile-actions button:disabled{opacity:.4;pointer-events:none}
+.kanban-board-tile-actions .kanban-board-tile-delete{color:#e0524a}
+.kanban-board-tile-actions .kanban-board-tile-delete:hover{color:#ff6b61}
 
 /* ---------- SINGLE BOARD VIEW ---------- */
 .kanban-board-header{display:flex;align-items:flex-start;justify-content:space-between;gap:1.5rem;margin-bottom:1.5rem;flex-wrap:wrap}

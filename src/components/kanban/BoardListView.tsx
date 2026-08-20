@@ -110,7 +110,7 @@ function BoardTile({ board }: { board: BoardSummary }) {
         <button type="button" className="t-helper" onClick={handleDuplicate} disabled={pending}>
           Duplicar
         </button>
-        <button type="button" className="t-helper" onClick={requestDelete} disabled={pending}>
+        <button type="button" className="t-helper kanban-board-tile-delete" onClick={requestDelete} disabled={pending}>
           Excluir
         </button>
       </div>
