@@ -25,6 +25,8 @@ export async function createClientAction(_prevState: ClientFormState, formData: 
 
   const monthlyValueRaw = String(formData.get("monthly_value") ?? "").trim();
 
+  const segmentId = String(formData.get("segment_id") ?? "").trim();
+
   const { data, error } = await supabase
     .from("clients")
     .insert({
@@ -38,6 +40,7 @@ export async function createClientAction(_prevState: ClientFormState, formData: 
       status: (String(formData.get("status") ?? "lead") as ClientStatus) || "lead",
       monthly_value: monthlyValueRaw ? Number(monthlyValueRaw) : null,
       notes: String(formData.get("notes") ?? "").trim() || null,
+      segment_id: segmentId || null,
     })
     .select("id")
     .single();
@@ -68,6 +71,7 @@ export interface ClientPatch {
   monthly_value?: number | null;
   notes?: string | null;
   responsible_user_id?: string | null;
+  segment_id?: string | null;
 }
 
 export async function updateClientAction(clientId: string, patch: ClientPatch) {
@@ -104,4 +108,36 @@ export async function deleteClientAction(clientId: string) {
   if (error) throw new Error("Não foi possível excluir o cliente.");
 
   revalidatePath("/gestao/clientes");
+}
+
+export async function createClientSegmentAction(name: string): Promise<{ id: string; name: string }> {
+  const trimmed = name.trim();
+  if (!trimmed) throw new Error("Informe o nome do nicho.");
+
+  const user = await requireUser();
+  const supabase = await createClient();
+
+  const { data: inserted } = await supabase
+    .from("client_segments")
+    .insert({ organization_id: user.organizationId!, name: trimmed })
+    .select("id, name")
+    .single();
+
+  if (inserted) {
+    revalidatePath("/gestao/clientes");
+    return inserted;
+  }
+
+  // Provavelmente conflito de unique(organization_id, name) — o nicho já
+  // existe nesta organização, então reusa em vez de falhar.
+  const { data: existing, error: existingError } = await supabase
+    .from("client_segments")
+    .select("id, name")
+    .eq("organization_id", user.organizationId!)
+    .eq("name", trimmed)
+    .single();
+
+  if (existingError || !existing) throw new Error("Não foi possível criar o nicho.");
+
+  return existing;
 }

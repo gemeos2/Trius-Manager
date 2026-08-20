@@ -2,6 +2,11 @@ import type { ClientStatus } from "@/types/database";
 
 export type { ClientStatus };
 
+export interface ClientSegment {
+  id: string;
+  name: string;
+}
+
 export interface ClientSummary {
   id: string;
   name: string;
@@ -11,6 +16,8 @@ export interface ClientSummary {
   responsibleName: string | null;
   entryDate: string;
   revenueTotal: number;
+  segmentId: string | null;
+  segmentName: string | null;
 }
 
 export interface ClientDetail {
@@ -28,6 +35,8 @@ export interface ClientDetail {
   entryDate: string;
   responsibleUserId: string | null;
   responsibleName: string | null;
+  segmentId: string | null;
+  segmentName: string | null;
   createdAt: string;
 }
 

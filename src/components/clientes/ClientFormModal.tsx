@@ -8,8 +8,9 @@ import { Button } from "@/components/ui/Button";
 import { useToast } from "@/components/ui/ToastProvider";
 import { createClientAction, updateClientAction, type ClientFormState } from "@/app/gestao/(dashboard)/clientes/actions";
 import { CLIENT_STATUS_LABEL, CLIENT_STATUS_OPTIONS } from "@/lib/clientes/types";
-import type { ClientDetail } from "@/lib/clientes/types";
+import type { ClientDetail, ClientSegment } from "@/lib/clientes/types";
 import type { ClientStatus } from "@/types/database";
+import { SegmentField } from "./SegmentField";
 
 const initialState: ClientFormState = {};
 
@@ -17,16 +18,17 @@ interface ClientFormModalProps {
   open: boolean;
   onClose: () => void;
   client?: ClientDetail;
+  segments: ClientSegment[];
 }
 
-export function ClientFormModal({ open, onClose, client }: ClientFormModalProps) {
+export function ClientFormModal({ open, onClose, client, segments }: ClientFormModalProps) {
   if (client) {
-    return <EditForm open={open} onClose={onClose} client={client} />;
+    return <EditForm open={open} onClose={onClose} client={client} segments={segments} />;
   }
-  return <CreateForm open={open} onClose={onClose} />;
+  return <CreateForm open={open} onClose={onClose} segments={segments} />;
 }
 
-function CreateForm({ open, onClose }: { open: boolean; onClose: () => void }) {
+function CreateForm({ open, onClose, segments }: { open: boolean; onClose: () => void; segments: ClientSegment[] }) {
   const [state, formAction, pending] = useActionState(createClientAction, initialState);
 
   return (
@@ -57,6 +59,7 @@ function CreateForm({ open, onClose }: { open: boolean; onClose: () => void }) {
           </div>
           <InputField id="monthly_value" name="monthly_value" type="number" step="0.01" label="Valor mensal" placeholder="0,00" />
         </div>
+        <SegmentField id="segment_id" segments={segments} />
         <TextareaField id="notes" name="notes" label="Observações" placeholder="Opcional" rows={3} />
         <Button type="submit" loading={pending} cornerDots>
           {pending ? "Criando" : "Criar cliente"}
@@ -66,7 +69,7 @@ function CreateForm({ open, onClose }: { open: boolean; onClose: () => void }) {
   );
 }
 
-function EditForm({ open, onClose, client }: { open: boolean; onClose: () => void; client: ClientDetail }) {
+function EditForm({ open, onClose, client, segments }: { open: boolean; onClose: () => void; client: ClientDetail; segments: ClientSegment[] }) {
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const { showToast } = useToast();
@@ -94,6 +97,7 @@ function EditForm({ open, onClose, client }: { open: boolean; onClose: () => voi
           status: String(formData.get("status") ?? "lead") as ClientStatus,
           monthly_value: monthlyValueRaw ? Number(monthlyValueRaw) : null,
           notes: String(formData.get("notes") ?? "").trim() || null,
+          segment_id: String(formData.get("segment_id") ?? "").trim() || null,
         });
         showToast("Cliente atualizado.");
         onClose();
@@ -132,6 +136,7 @@ function EditForm({ open, onClose, client }: { open: boolean; onClose: () => voi
           </div>
           <InputField id="edit-monthly-value" name="monthly_value" type="number" step="0.01" label="Valor mensal" defaultValue={client.monthlyValue ?? ""} />
         </div>
+        <SegmentField id="edit-segment_id" segments={segments} defaultValue={client.segmentId ?? ""} />
         <TextareaField id="edit-notes" name="notes" label="Observações" defaultValue={client.notes ?? ""} rows={3} />
         <Button type="submit" loading={pending} cornerDots>
           {pending ? "Salvando" : "Salvar alterações"}

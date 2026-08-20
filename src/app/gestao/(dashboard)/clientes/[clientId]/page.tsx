@@ -8,6 +8,7 @@ import {
   getClientProfitability,
   getClientProjects,
   getClientRevenues,
+  getClientSegments,
   getClientTasks,
 } from "@/lib/clientes/queries";
 import { ClientProfileHeader } from "@/components/clientes/ClientProfileHeader";
@@ -36,12 +37,15 @@ export default async function ClientProfilePage({
   if (!user) redirect("/gestao/login");
   if (!user.organizationId) notFound();
 
-  const client = await getClientDetail(clientId, user.organizationId);
+  const [client, segments] = await Promise.all([
+    getClientDetail(clientId, user.organizationId),
+    getClientSegments(user.organizationId),
+  ]);
   if (!client) notFound();
 
   return (
     <>
-      <ClientProfileHeader client={client} />
+      <ClientProfileHeader client={client} segments={segments} />
       <ClientProfileTabs clientId={clientId} />
       <div className="client-tab-content">
         <TabContent clientId={clientId} tab={tab} client={client} />

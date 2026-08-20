@@ -73,6 +73,7 @@ export interface Database {
           document_id: string | null;
           whatsapp: string | null;
           responsible_user_id: string | null;
+          segment_id: string | null;
           entry_date: string;
           created_at: string;
           updated_at: string;
@@ -90,7 +91,28 @@ export interface Database {
             referencedRelation: "profiles";
             referencedColumns: ["id"];
           },
+          {
+            foreignKeyName: "clients_segment_id_fkey";
+            columns: ["segment_id"];
+            isOneToOne: false;
+            referencedRelation: "client_segments";
+            referencedColumns: ["id"];
+          },
         ];
+      };
+      client_segments: {
+        Row: {
+          id: string;
+          organization_id: string;
+          name: string;
+          created_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["client_segments"]["Row"]> & {
+          organization_id: string;
+          name: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["client_segments"]["Row"]>;
+        Relationships: [];
       };
       projects: {
         Row: {

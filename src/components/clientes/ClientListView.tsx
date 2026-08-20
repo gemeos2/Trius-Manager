@@ -7,9 +7,15 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import { ClientTable } from "./ClientTable";
 import { ClientFormModal } from "./ClientFormModal";
 import { CLIENT_STATUS_LABEL, CLIENT_STATUS_OPTIONS } from "@/lib/clientes/types";
-import type { ClientSummary } from "@/lib/clientes/types";
+import type { ClientSegment, ClientSummary } from "@/lib/clientes/types";
 
-export function ClientListView({ clients, hasAnyClient }: { clients: ClientSummary[]; hasAnyClient: boolean }) {
+interface ClientListViewProps {
+  clients: ClientSummary[];
+  hasAnyClient: boolean;
+  segments: ClientSegment[];
+}
+
+export function ClientListView({ clients, hasAnyClient, segments }: ClientListViewProps) {
   const [modalOpen, setModalOpen] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -74,13 +80,25 @@ export function ClientListView({ clients, hasAnyClient }: { clients: ClientSumma
                 ))}
               </select>
             </div>
+            <div className="input-frame">
+              <select
+                className="ds-input"
+                defaultValue={searchParams.get("segment") ?? ""}
+                onChange={(e) => updateParam("segment", e.target.value)}
+              >
+                <option value="">Todos os nichos</option>
+                {segments.map((s) => (
+                  <option key={s.id} value={s.id}>{s.name}</option>
+                ))}
+              </select>
+            </div>
           </div>
 
           <ClientTable clients={clients} />
         </>
       )}
 
-      <ClientFormModal open={modalOpen} onClose={() => setModalOpen(false)} />
+      <ClientFormModal open={modalOpen} onClose={() => setModalOpen(false)} segments={segments} />
     </>
   );
 }

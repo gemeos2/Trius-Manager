@@ -44,6 +44,10 @@ export function OverviewTab({ client, profitability }: { client: ClientDetail; p
             <div className="t-body-sm">{client.responsibleName ?? "—"}</div>
           </div>
           <div>
+            <div className="t-helper">Nicho</div>
+            <div className="t-body-sm">{client.segmentName ?? "—"}</div>
+          </div>
+          <div>
             <div className="t-helper">Data de entrada</div>
             <div className="t-body-sm">{formatDate(client.entryDate)}</div>
           </div>

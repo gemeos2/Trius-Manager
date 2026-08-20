@@ -32,6 +32,12 @@ export interface FinancialSummary {
   marginPct: number;
 }
 
+export interface MonthlyFinancialPoint {
+  period: string;
+  revenue: number;
+  expense: number;
+}
+
 export const REVENUE_STATUS_LABEL: Record<string, string> = {
   pendente: "Pendente",
   pago: "Pago",

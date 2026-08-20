@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import type { CategorySummary, FinancialSummary, TransactionKind, TransactionSummary } from "./types";
+import type { CategorySummary, FinancialSummary, MonthlyFinancialPoint, TransactionKind, TransactionSummary } from "./types";
 
 export type TransactionSortKey = "date" | "amount";
 
@@ -160,4 +160,34 @@ export async function getFinancialSummary(organizationId: string, period: Date |
   const marginPct = revenueTotal === 0 ? 0 : Math.round((profit / revenueTotal) * 10000) / 100;
 
   return { revenueTotal, expenseTotal, profit, marginPct };
+}
+
+export async function getFinancialSummarySeries(organizationId: string, months = 12): Promise<MonthlyFinancialPoint[]> {
+  const supabase = await createClient();
+
+  const now = new Date();
+  const start = new Date(now.getFullYear(), now.getMonth() - (months - 1), 1);
+  const startISO = start.toISOString().slice(0, 10);
+
+  const { data } = await supabase
+    .from("financial_summary")
+    .select("period, kind, total")
+    .eq("organization_id", organizationId)
+    .gte("period", startISO);
+
+  const points: MonthlyFinancialPoint[] = [];
+  for (let i = 0; i < months; i++) {
+    const d = new Date(start.getFullYear(), start.getMonth() + i, 1);
+    points.push({ period: d.toISOString().slice(0, 10), revenue: 0, expense: 0 });
+  }
+  const byPeriod = new Map(points.map((p) => [p.period, p]));
+
+  for (const row of data ?? []) {
+    const point = byPeriod.get(row.period);
+    if (!point) continue;
+    if (row.kind === "receita") point.revenue += row.total;
+    else point.expense += row.total;
+  }
+
+  return points;
 }

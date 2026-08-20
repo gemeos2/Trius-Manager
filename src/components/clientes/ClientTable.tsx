@@ -41,6 +41,7 @@ export function ClientTable({ clients }: { clients: ClientSummary[] }) {
       ),
     },
     { key: "status", header: "Status", render: (c) => <ClientStatusDropdown clientId={c.id} status={c.status} /> },
+    { key: "segmentName", header: "Nicho", render: (c) => c.segmentName ?? "—" },
     { key: "responsibleName", header: "Responsável", render: (c) => c.responsibleName ?? "—" },
     { key: "revenueTotal", header: "Receita", sortable: true, align: "right", render: (c) => formatBRL(c.revenueTotal) },
   ];

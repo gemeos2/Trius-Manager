@@ -6,6 +6,8 @@
 .stat-card .st-trend{flex-shrink:0}
 .stat-card .st-trend-up{color:#3ecf6e}
 .stat-card .st-trend-down{color:#e5484d;transform:rotate(180deg)}
+.stat-card .st-trend-up.st-trend-invert{color:#e5484d}
+.stat-card .st-trend-down.st-trend-invert{color:#3ecf6e}
 .stat-card .st-label{margin-top:.375rem;font-family:var(--ff-mono);font-size:.5625rem;letter-spacing:.16em;text-transform:uppercase;color:var(--off-blue-40)}
 .stat-card .st-delta{margin-top:.25rem;font-family:var(--ff-mono);font-size:.625rem;letter-spacing:.06em;color:var(--off-blue-60)}
 .stat-card .st-bars{position:absolute;right:.875rem;bottom:.875rem;display:flex;gap:2px;align-items:flex-end;height:1.125rem}

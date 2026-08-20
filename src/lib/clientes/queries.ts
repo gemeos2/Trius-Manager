@@ -3,6 +3,7 @@ import type {
   ActivityEntry,
   ClientDetail,
   ClientProfitability,
+  ClientSegment,
   ClientStatus,
   ClientSummary,
   ClientTaskSummary,
@@ -26,6 +27,7 @@ export type ClientSortKey = "name" | "revenueTotal";
 export interface GetClientsOptions {
   search?: string;
   status?: ClientStatus;
+  segmentId?: string;
   sortBy?: ClientSortKey;
   sortDir?: "asc" | "desc";
 }
@@ -35,7 +37,7 @@ export async function getClients(organizationId: string, options: GetClientsOpti
 
   let query = supabase
     .from("clients")
-    .select("id, name, company, status, monthly_value, entry_date, profiles:responsible_user_id(full_name)")
+    .select("id, name, company, status, monthly_value, entry_date, segment_id, profiles:responsible_user_id(full_name), client_segments(name)")
     .eq("organization_id", organizationId);
 
   if (options.search) {
@@ -43,6 +45,9 @@ export async function getClients(organizationId: string, options: GetClientsOpti
   }
   if (options.status) {
     query = query.eq("status", options.status);
+  }
+  if (options.segmentId) {
+    query = query.eq("segment_id", options.segmentId);
   }
 
   const [{ data, error }, { data: profitabilityRows }] = await Promise.all([
@@ -57,6 +62,7 @@ export async function getClients(organizationId: string, options: GetClientsOpti
   const summaries: ClientSummary[] = data.map((c) => {
     const profitability = profitabilityByClient.get(c.id);
     const responsible = c.profiles as unknown as { full_name: string } | null;
+    const segment = c.client_segments as unknown as { name: string } | null;
     return {
       id: c.id,
       name: c.name,
@@ -66,6 +72,8 @@ export async function getClients(organizationId: string, options: GetClientsOpti
       responsibleName: responsible?.full_name ?? null,
       entryDate: c.entry_date,
       revenueTotal: profitability?.revenue_total ?? 0,
+      segmentId: c.segment_id,
+      segmentName: segment?.name ?? null,
     };
   });
 
@@ -95,7 +103,7 @@ export async function getClientDetail(clientId: string, organizationId: string):
   const { data, error } = await supabase
     .from("clients")
     .select(
-      "id, name, company, email, phone, whatsapp, document_id, logo_url, status, monthly_value, notes, entry_date, responsible_user_id, created_at, profiles:responsible_user_id(full_name)"
+      "id, name, company, email, phone, whatsapp, document_id, logo_url, status, monthly_value, notes, entry_date, responsible_user_id, segment_id, created_at, profiles:responsible_user_id(full_name), client_segments(name)"
     )
     .eq("id", clientId)
     .eq("organization_id", organizationId)
@@ -104,6 +112,7 @@ export async function getClientDetail(clientId: string, organizationId: string):
   if (error || !data) return null;
 
   const responsible = data.profiles as unknown as { full_name: string } | null;
+  const segment = data.client_segments as unknown as { name: string } | null;
 
   return {
     id: data.id,
@@ -120,8 +129,22 @@ export async function getClientDetail(clientId: string, organizationId: string):
     entryDate: data.entry_date,
     responsibleUserId: data.responsible_user_id,
     responsibleName: responsible?.full_name ?? null,
+    segmentId: data.segment_id,
+    segmentName: segment?.name ?? null,
     createdAt: data.created_at,
   };
+}
+
+export async function getClientSegments(organizationId: string): Promise<ClientSegment[]> {
+  const supabase = await createClient();
+
+  const { data } = await supabase
+    .from("client_segments")
+    .select("id, name")
+    .eq("organization_id", organizationId)
+    .order("name", { ascending: true });
+
+  return data ?? [];
 }
 
 export async function getClientProfitability(clientId: string): Promise<ClientProfitability> {

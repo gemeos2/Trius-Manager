@@ -7,6 +7,8 @@
 .client-form{display:flex;flex-direction:column;gap:1.25rem}
 .client-form-row{display:flex;gap:1rem;flex-wrap:wrap}
 .client-form-row > *{flex:1;min-width:10rem}
+.segment-new-row{display:flex;align-items:center;gap:.75rem}
+.segment-new-row .ds-input{flex:1}
 
 .client-inline-form{display:flex;flex-direction:column;gap:1.25rem;padding:1.5rem;margin-bottom:1.5rem;background:var(--off-blue-05);border:1px solid var(--off-blue-10)}
 

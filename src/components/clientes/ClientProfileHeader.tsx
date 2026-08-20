@@ -9,9 +9,9 @@ import { useToast } from "@/components/ui/ToastProvider";
 import { ClientStatusDropdown } from "./ClientStatusDropdown";
 import { ClientFormModal } from "./ClientFormModal";
 import { deleteClientAction } from "@/app/gestao/(dashboard)/clientes/actions";
-import type { ClientDetail } from "@/lib/clientes/types";
+import type { ClientDetail, ClientSegment } from "@/lib/clientes/types";
 
-export function ClientProfileHeader({ client }: { client: ClientDetail }) {
+export function ClientProfileHeader({ client, segments }: { client: ClientDetail; segments: ClientSegment[] }) {
   const [editOpen, setEditOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [pending, setPending] = useState(false);
@@ -48,7 +48,7 @@ export function ClientProfileHeader({ client }: { client: ClientDetail }) {
         </div>
       </div>
 
-      <ClientFormModal open={editOpen} onClose={() => setEditOpen(false)} client={client} />
+      <ClientFormModal open={editOpen} onClose={() => setEditOpen(false)} client={client} segments={segments} />
 
       <ConfirmDialog
         open={confirmOpen}

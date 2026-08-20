@@ -19,14 +19,22 @@ interface StatCardProps {
   delta?: string;
   bars?: boolean;
   trend?: "up" | "down";
+  invertTrendColor?: boolean;
 }
 
-export function StatCard({ value, unit, label, delta, bars = true, trend }: StatCardProps) {
+export function StatCard({ value, unit, label, delta, bars = true, trend, invertTrendColor }: StatCardProps) {
   return (
     <div className="ds-card stat-card">
       <div className="st-value">
         {trend && (
-          <svg className={`st-trend st-trend-${trend}`} width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <svg
+            className={`st-trend st-trend-${trend} ${invertTrendColor ? "st-trend-invert" : ""}`}
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden="true"
+          >
             <path d="M12 19V5M12 5L5 12M12 5L19 12" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         )}
