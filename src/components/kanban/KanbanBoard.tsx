@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   DndContext,
@@ -41,6 +41,12 @@ export function KanbanBoard({ initialData, currentUserId }: { initialData: Board
   const searchParams = useSearchParams();
   const openCardId = searchParams.get("card");
 
+  // Mantém o board em sincronia quando o servidor reenvia dados atualizados
+  // (ex.: depois de um router.refresh() disparado por edições no modal do card).
+  useEffect(() => {
+    setLists(initialData.lists);
+  }, [initialData]);
+
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
@@ -80,6 +86,7 @@ export function KanbanBoard({ initialData, currentUserId }: { initialData: Board
     const params = new URLSearchParams(searchParams);
     params.delete("card");
     router.push(params.toString() ? `?${params.toString()}` : "?", { scroll: false });
+    router.refresh();
   }
 
   const rollbackTo = useCallback((snapshot: ListWithCards[]) => setLists(snapshot), []);
