@@ -9,9 +9,8 @@ export const metadata: Metadata = { title: "Acessos — TRIUS" };
 export default async function AcessosPage() {
   const user = await getCurrentUser();
   if (!user) redirect("/gestao/login");
-  if (!user.organizationId) redirect("/gestao/configuracoes");
 
-  const credentials = await getAccessCredentials(user.organizationId);
+  const credentials = user.organizationId ? await getAccessCredentials(user.organizationId) : [];
 
   return <AcessosView credentials={credentials} />;
 }

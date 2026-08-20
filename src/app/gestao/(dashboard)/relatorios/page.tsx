@@ -15,10 +15,27 @@ export default async function RelatoriosPage({
   const params = await searchParams;
   const user = await getCurrentUser();
   if (!user) redirect("/gestao/login");
-  if (!user.organizationId) redirect("/gestao/configuracoes");
 
   const range = resolveReportRange(params);
-  const data = await getReportData(user.organizationId, range);
+  const data = user.organizationId
+    ? await getReportData(user.organizationId, range)
+    : {
+        range,
+        revenueTotal: 0,
+        expenseTotal: 0,
+        profit: 0,
+        marginPct: 0,
+        newClients: 0,
+        activeClients: 0,
+        churnedClients: 0,
+        contractsSignedInPeriod: 0,
+        activeContracts: 0,
+        endedContracts: 0,
+        averageTicket: 0,
+        revenueByCategory: [],
+        expenseByCategory: [],
+        topClients: [],
+      };
 
   const hasAnyData =
     data.revenueTotal > 0 ||

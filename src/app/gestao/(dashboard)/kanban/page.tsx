@@ -9,9 +9,8 @@ export const metadata: Metadata = { title: "Kanban — TRIUS" };
 export default async function KanbanPage() {
   const user = await getCurrentUser();
   if (!user) redirect("/gestao/login");
-  if (!user.organizationId) redirect("/gestao/configuracoes");
 
-  const boards = await getBoards(user.organizationId);
+  const boards = user.organizationId ? await getBoards(user.organizationId) : [];
 
   return <BoardListView boards={boards} />;
 }

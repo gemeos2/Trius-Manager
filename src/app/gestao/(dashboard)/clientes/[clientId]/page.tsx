@@ -34,7 +34,7 @@ export default async function ClientProfilePage({
 
   const user = await getCurrentUser();
   if (!user) redirect("/gestao/login");
-  if (!user.organizationId) redirect("/gestao/configuracoes");
+  if (!user.organizationId) notFound();
 
   const client = await getClientDetail(clientId, user.organizationId);
   if (!client) notFound();

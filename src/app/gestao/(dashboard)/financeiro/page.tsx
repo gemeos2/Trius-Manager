@@ -5,7 +5,12 @@ import { createClient } from "@/lib/supabase/server";
 import { getCategories, getFinancialSummary, getTransactions, type TransactionSortKey } from "@/lib/financeiro/queries";
 import { FinanceiroView } from "@/components/financeiro/FinanceiroView";
 import { parsePeriod } from "@/lib/financeiro/period";
-import type { TransactionKind } from "@/lib/financeiro/types";
+import type { CategorySummary, FinancialSummary, TransactionKind, TransactionSummary } from "@/lib/financeiro/types";
+
+interface ClientOption {
+  id: string;
+  name: string;
+}
 
 export const metadata: Metadata = { title: "Financeiro — TRIUS" };
 
@@ -23,20 +28,28 @@ export default async function FinanceiroPage({
   const params = await searchParams;
   const user = await getCurrentUser();
   if (!user) redirect("/gestao/login");
-  if (!user.organizationId) redirect("/gestao/configuracoes");
 
   const period = parsePeriod(params.period ?? null);
   const kind = params.kind === "receita" || params.kind === "despesa" ? (params.kind as TransactionKind) : undefined;
   const sortBy = params.sort === "amount" ? "amount" : ("date" as TransactionSortKey);
   const sortDir = params.dir === "asc" ? "asc" : "desc";
 
-  const [summary, transactions, categories, clients, anyTransactionEver] = await Promise.all([
-    getFinancialSummary(user.organizationId, period),
-    getTransactions(user.organizationId, { kind, categoryId: params.category, clientId: params.client, period, sortBy, sortDir }),
-    getCategories(user.organizationId),
-    getClientOptions(user.organizationId),
-    getTransactions(user.organizationId, { period: "all" }),
-  ]);
+  const orgId = user.organizationId;
+  const [summary, transactions, categories, clients, anyTransactionEver]: [
+    FinancialSummary,
+    TransactionSummary[],
+    CategorySummary[],
+    ClientOption[],
+    TransactionSummary[],
+  ] = orgId
+    ? await Promise.all([
+        getFinancialSummary(orgId, period),
+        getTransactions(orgId, { kind, categoryId: params.category, clientId: params.client, period, sortBy, sortDir }),
+        getCategories(orgId),
+        getClientOptions(orgId),
+        getTransactions(orgId, { period: "all" }),
+      ])
+    : [{ revenueTotal: 0, expenseTotal: 0, profit: 0, marginPct: 0 }, [], [], [], []];
 
   const hasAnyTransaction = anyTransactionEver.length > 0;
 

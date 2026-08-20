@@ -12,7 +12,7 @@ export default async function BoardPage({ params }: { params: Promise<{ boardId:
   const { boardId } = await params;
   const user = await getCurrentUser();
   if (!user) redirect("/gestao/login");
-  if (!user.organizationId) redirect("/gestao/configuracoes");
+  if (!user.organizationId) notFound();
 
   const board = await getBoardWithLists(boardId, user.organizationId);
   if (!board) notFound();
