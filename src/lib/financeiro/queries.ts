@@ -40,16 +40,36 @@ export async function getTransactions(organizationId: string, options: GetTransa
     revenuesQuery = revenuesQuery.eq("client_id", options.clientId);
     expensesQuery = expensesQuery.eq("client_id", options.clientId);
   }
+
+  // Lançamentos recorrentes "existem" em todo mês a partir da data original,
+  // então o filtro de período não pode excluí-los pela data literal — isso é
+  // resolvido depois, projetando a data para dentro do período consultado.
   if (options.period && options.period !== "all") {
     const { start, end } = monthRange(options.period);
-    revenuesQuery = revenuesQuery.gte("issue_date", start).lt("issue_date", end);
-    expensesQuery = expensesQuery.gte("expense_date", start).lt("expense_date", end);
+    revenuesQuery = revenuesQuery.or(`is_recurring.eq.true,and(issue_date.gte.${start},issue_date.lt.${end})`);
+    expensesQuery = expensesQuery.or(`is_recurring.eq.true,and(expense_date.gte.${start},expense_date.lt.${end})`);
   }
 
   const fetchRevenues = options.kind === "despesa" ? Promise.resolve({ data: [] as never[] }) : revenuesQuery;
   const fetchExpenses = options.kind === "receita" ? Promise.resolve({ data: [] as never[] }) : expensesQuery;
 
-  const [{ data: revenues }, { data: expenses }] = await Promise.all([fetchRevenues, fetchExpenses]);
+  const [{ data: revenuesRaw }, { data: expensesRaw }] = await Promise.all([fetchRevenues, fetchExpenses]);
+
+  const periodFilter = options.period && options.period !== "all" ? monthRange(options.period) : null;
+
+  // Recorrentes só contam a partir do mês em que foram criadas (não retroage)
+  // e têm a data exibida projetada para o 1º dia do mês consultado.
+  const revenues = periodFilter
+    ? (revenuesRaw ?? [])
+        .filter((r) => !r.is_recurring || r.issue_date < periodFilter.end)
+        .map((r) => (r.is_recurring ? { ...r, issue_date: periodFilter.start } : r))
+    : revenuesRaw ?? [];
+
+  const expenses = periodFilter
+    ? (expensesRaw ?? [])
+        .filter((e) => !e.is_recurring || e.expense_date < periodFilter.end)
+        .map((e) => (e.is_recurring ? { ...e, expense_date: periodFilter.start } : e))
+    : expensesRaw ?? [];
 
   const revenueRows: TransactionSummary[] = (revenues ?? []).map((r) => ({
     id: r.id,

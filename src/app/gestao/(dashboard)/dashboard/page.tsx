@@ -30,9 +30,10 @@ function formatBRL(value: number) {
 export default async function DashboardPage() {
   const user = await getCurrentUser();
   if (!user) redirect("/gestao/login");
-  if (!user.organizationId) redirect("/gestao/configuracoes");
 
-  const counts = await getDashboardCounts(user.organizationId);
+  const counts = user.organizationId
+    ? await getDashboardCounts(user.organizationId)
+    : { activeClients: 0, activeContracts: 0, revenueTotal: 0, expenseTotal: 0, profit: 0 };
   const hasAnyData = counts.activeClients > 0 || counts.revenueTotal > 0 || counts.expenseTotal > 0;
 
   return (
