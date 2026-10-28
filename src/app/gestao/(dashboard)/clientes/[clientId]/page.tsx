@@ -68,7 +68,7 @@ async function TabContent({ clientId, tab, client }: { clientId: string; tab: st
     }
     case "finance": {
       const revenues = await getClientRevenues(clientId);
-      return <FinanceTab clientId={clientId} revenues={revenues} />;
+      return <FinanceTab clientId={clientId} revenues={revenues} monthlyValue={client.monthlyValue} status={client.status} />;
     }
     case "contracts": {
       const contracts = await getClientContracts(clientId);

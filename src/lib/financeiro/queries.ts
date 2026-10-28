@@ -50,10 +50,29 @@ export async function getTransactions(organizationId: string, options: GetTransa
     expensesQuery = expensesQuery.or(`is_recurring.eq.true,and(expense_date.gte.${start},expense_date.lt.${end})`);
   }
 
+  // O valor mensal de clientes ativos já entra no resumo financeiro; aqui ele
+  // vira uma linha "Mensalidade" para aparecer também na lista. Não tem
+  // categoria, então some quando há filtro por categoria.
+  let monthlyFeesQuery = supabase
+    .from("clients")
+    .select("id, name, monthly_value, entry_date")
+    .eq("organization_id", organizationId)
+    .eq("status", "ativo")
+    .gt("monthly_value", 0);
+  if (options.clientId) {
+    monthlyFeesQuery = monthlyFeesQuery.eq("id", options.clientId);
+  }
+
   const fetchRevenues = options.kind === "despesa" ? Promise.resolve({ data: [] as never[] }) : revenuesQuery;
   const fetchExpenses = options.kind === "receita" ? Promise.resolve({ data: [] as never[] }) : expensesQuery;
+  const fetchMonthlyFees =
+    options.kind === "despesa" || options.categoryId ? Promise.resolve({ data: [] as never[] }) : monthlyFeesQuery;
 
-  const [{ data: revenuesRaw }, { data: expensesRaw }] = await Promise.all([fetchRevenues, fetchExpenses]);
+  const [{ data: revenuesRaw }, { data: expensesRaw }, { data: monthlyFeesRaw }] = await Promise.all([
+    fetchRevenues,
+    fetchExpenses,
+    fetchMonthlyFees,
+  ]);
 
   const periodFilter = options.period && options.period !== "all" ? monthRange(options.period) : null;
 
@@ -103,7 +122,24 @@ export async function getTransactions(organizationId: string, options: GetTransa
     installmentsPaid: e.installments_paid,
   }));
 
-  const rows = [...revenueRows, ...expenseRows];
+  const monthlyFeeRows: TransactionSummary[] = (monthlyFeesRaw ?? []).map((c) => ({
+    id: `mensalidade-${c.id}`,
+    kind: "receita",
+    description: "Mensalidade",
+    amount: c.monthly_value ?? 0,
+    date: periodFilter ? periodFilter.start : c.entry_date,
+    categoryId: null,
+    categoryName: null,
+    clientId: c.id,
+    clientName: c.name,
+    status: null,
+    isRecurring: true,
+    installmentsTotal: null,
+    installmentsPaid: 0,
+    isMonthlyFee: true,
+  }));
+
+  const rows = [...revenueRows, ...expenseRows, ...monthlyFeeRows];
 
   const sortBy = options.sortBy ?? "date";
   const dir = options.sortDir === "asc" ? 1 : -1;

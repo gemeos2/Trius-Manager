@@ -90,8 +90,15 @@ export function TransactionTable({
       align: "right",
       render: (t) => (
         <div style={{ display: "flex", gap: ".5rem", justifyContent: "flex-end" }}>
-          <Button variant="transparent" size="sm" onClick={() => onEdit(t)}>Editar</Button>
-          <Button variant="transparent" size="sm" onClick={() => setPendingDelete(t)}>Excluir</Button>
+          {t.isMonthlyFee ? (
+            // Mensalidade vem do cadastro do cliente: edita-se lá, não aqui.
+            <Button variant="transparent" size="sm" onClick={() => router.push(`/gestao/clientes/${t.clientId}`)}>Ver cliente</Button>
+          ) : (
+            <>
+              <Button variant="transparent" size="sm" onClick={() => onEdit(t)}>Editar</Button>
+              <Button variant="transparent" size="sm" onClick={() => setPendingDelete(t)}>Excluir</Button>
+            </>
+          )}
         </div>
       ),
     },

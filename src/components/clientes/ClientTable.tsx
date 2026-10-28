@@ -6,11 +6,6 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import { ClientStatusDropdown } from "./ClientStatusDropdown";
 import type { ClientSummary } from "@/lib/clientes/types";
 
-function formatBRL(value: number | null) {
-  if (value === null) return "—";
-  return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-}
-
 export function ClientTable({ clients }: { clients: ClientSummary[] }) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -43,7 +38,6 @@ export function ClientTable({ clients }: { clients: ClientSummary[] }) {
     { key: "status", header: "Status", render: (c) => <ClientStatusDropdown clientId={c.id} status={c.status} /> },
     { key: "segmentName", header: "Nicho", render: (c) => c.segmentName ?? "—" },
     { key: "responsibleName", header: "Responsável", render: (c) => c.responsibleName ?? "—" },
-    { key: "revenueTotal", header: "Receita", sortable: true, align: "right", render: (c) => formatBRL(c.revenueTotal) },
   ];
 
   return (

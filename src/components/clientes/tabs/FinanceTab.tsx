@@ -9,7 +9,8 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import { useToast } from "@/components/ui/ToastProvider";
 import { registerRevenueForClient } from "@/app/gestao/(dashboard)/clientes/[clientId]/actions";
 import { TransactionStatusBadge } from "@/components/financeiro/TransactionStatusBadge";
-import type { RevenueSummary } from "@/lib/clientes/types";
+import { CLIENT_STATUS_LABEL, type RevenueSummary } from "@/lib/clientes/types";
+import type { ClientStatus } from "@/types/database";
 
 function formatBRL(value: number) {
   return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
@@ -20,7 +21,17 @@ function formatDate(iso: string | null) {
   return new Date(iso + "T00:00:00").toLocaleDateString("pt-BR");
 }
 
-export function FinanceTab({ clientId, revenues }: { clientId: string; revenues: RevenueSummary[] }) {
+export function FinanceTab({
+  clientId,
+  revenues,
+  monthlyValue,
+  status,
+}: {
+  clientId: string;
+  revenues: RevenueSummary[];
+  monthlyValue: number | null;
+  status: ClientStatus;
+}) {
   const [activeForm, setActiveForm] = useState<"revenue" | null>(null);
   const [pending, startTransition] = useTransition();
   const router = useRouter();
@@ -58,6 +69,28 @@ export function FinanceTab({ clientId, revenues }: { clientId: string; revenues:
           <Checkbox id="revenue-recurring" name="is_recurring" label="Receita recorrente" />
           <Button type="submit" loading={pending} cornerDots>Salvar receita</Button>
         </form>
+      )}
+
+      {monthlyValue !== null && monthlyValue > 0 && (
+        <div style={{ marginBottom: "2rem" }}>
+          <div className="client-tab-section-title">Mensalidade</div>
+          <div className="ds-card client-list-item">
+            <div className="ds-card-body">
+              <div className="client-list-item-header">
+                <span className="t-body-sm">Valor mensal</span>
+                <span className="t-body-sm" style={{ color: "var(--color-off-blue)" }}>{formatBRL(monthlyValue)}</span>
+              </div>
+              <div className="client-list-item-meta">
+                <span>Recorrente</span>
+                <span>
+                  {status === "ativo"
+                    ? "Entra na receita do Financeiro todo mês"
+                    : `Fora da receita — cliente ${CLIENT_STATUS_LABEL[status].toLowerCase()}`}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
 
       <div>

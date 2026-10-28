@@ -5,12 +5,12 @@
 .modal-root.is-open{visibility:visible}
 .modal-backdrop{position:absolute;inset:0;background:var(--dark-blue-90);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);opacity:0;transition:opacity .4s var(--ease-out)}
 .modal-root.is-open .modal-backdrop{opacity:1}
-.modal-panel{position:relative;width:100%;max-width:28rem;background:var(--panel-blue);border:1px solid var(--off-blue-10);opacity:0}
+.modal-panel{position:relative;display:flex;flex-direction:column;width:100%;max-width:28rem;max-height:100%;background:var(--panel-blue);border:1px solid var(--off-blue-10);opacity:0}
 .modal-panel.modal-lg{max-width:42rem}
 .modal-root.is-open .modal-panel{animation:open-scale-in-fade .45s var(--ease-out) .05s forwards}
 .modal-root.is-closing .modal-panel{animation:close-scale-out-fade .3s var(--ease-out) forwards}
 .modal-root.is-closing .modal-backdrop{opacity:0}
-.modal-body{padding:2.5rem 2rem 2rem;width:100%}
+.modal-body{padding:2.5rem 2rem 2rem;width:100%;overflow-y:auto;overscroll-behavior:contain}
 .modal-close{position:absolute;top:1rem;right:1rem;z-index:5;width:2rem;height:2rem;display:flex;align-items:center;justify-content:center;color:var(--off-blue-60);transition:color .3s,transform .3s}
 .modal-close:hover{color:var(--color-error);transform:rotate(90deg)}
 

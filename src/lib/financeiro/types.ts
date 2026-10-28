@@ -23,6 +23,8 @@ export interface TransactionSummary {
   isRecurring: boolean;
   installmentsTotal: number | null;
   installmentsPaid: number;
+  /** Mensalidade derivada do valor mensal de um cliente ativo — não existe na tabela de receitas. */
+  isMonthlyFee?: boolean;
 }
 
 export interface FinancialSummary {

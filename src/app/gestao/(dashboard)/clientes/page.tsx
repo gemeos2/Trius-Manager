@@ -8,7 +8,7 @@ import type { ClientSegment, ClientSummary } from "@/lib/clientes/types";
 
 export const metadata: Metadata = { title: "Clientes — TRIUS" };
 
-const SORT_KEYS: ClientSortKey[] = ["name", "revenueTotal"];
+const SORT_KEYS: ClientSortKey[] = ["name"];
 
 export default async function ClientesPage({
   searchParams,
